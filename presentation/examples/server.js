@@ -1,23 +1,30 @@
 module.exports =
-`const path = require('path');
+`
+// server.js
+const {join} = require('path');
 const express = require('express');
 const webpack = require('webpack');
 const config = require('./webpack.config');
 
+const dev = require('webpack-dev-middleware');
+const hmr = require('webpack-hot-middleware');
+
 const compiler = webpack(config);
 const serverPort = process.env.PORT || 3000;
 
+const {publicPath} = config.output;
 const app = express();
 app
-    .use(require('webpack-dev-middleware')(compiler, {publicPath: config.output.publicPath}))
-    .use(require('webpack-hot-middleware')(compiler));
+    .use(dev(compiler, {publicPath}))
+    .use(hmr(compiler));
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(join(__dirname, 'index.html'));
 });
 app.listen(serverPort, 'localhost', err => {
     if (err) {
         console.log(err);
         return;
     }
-    console.log(`Listening at http://localhost:${ serverPort}`);
-});`
+});
+
+`;
