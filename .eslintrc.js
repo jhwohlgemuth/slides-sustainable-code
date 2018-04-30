@@ -1,6 +1,7 @@
 module.exports = {
     env: {
-        commonjs: true
+        commonjs: true,
+        es6: true
     },
     globals: {
         Promise: true
@@ -18,6 +19,7 @@ module.exports = {
     },
     extends: ['omaha-prime-grade', 'plugin:react/recommended'],
     rules: {
-        'object-curly-spacing': ['error']
+        'object-curly-spacing': ['error'],
+        'quotes': ['error', 'single']
     }
 };
